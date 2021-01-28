@@ -1,11 +1,16 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'maven-publish'
+
+group = 'com.github.sergeshustoff'
 
 android {
     compileSdkVersion 30
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
     }
     compileOptions {
         sourceCompatibility = 1.8
