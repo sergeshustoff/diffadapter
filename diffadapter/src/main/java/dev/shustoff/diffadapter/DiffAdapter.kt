@@ -10,9 +10,11 @@ import dev.shustoff.diffadapter.utils.CustomSpanSizeLookup
 
 class DiffAdapter internal constructor(
     private val holderCreatorsRegistry: HashMap<Class<out Any>, HolderInfo>,
-    private val typesRegistry: HashMap<Int, HolderInfo>,
+    private val typesRegistry: Map<Int, HolderInfo>,
     private val defineGridSpans: Boolean
 ) : RecyclerView.Adapter<TypedViewHolder<*>>() {
+
+    val viewTypes: Set<Int> = typesRegistry.keys
 
     var items: List<Any> = emptyList()
         set(value) {
@@ -77,4 +79,8 @@ class DiffAdapter internal constructor(
 
     private fun getHolderInfoByItem(item: Any) = (holderCreatorsRegistry[item.javaClass]
         ?: throw IllegalArgumentException("Class not supported: ${item.javaClass.name}"))
+
+    inline fun <reified T: Any> getViewType(): Int? = getViewType(T::class.java)
+
+    fun getViewType(clazz: Class<*>): Int? = holderCreatorsRegistry[clazz]?.viewType
 }
